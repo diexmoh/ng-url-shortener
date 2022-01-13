@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Component({
   selector: 'app-url',
@@ -25,16 +25,19 @@ export class UrlComponent implements OnInit {
     this.urlValue = this.urlForm.value.url;
     console.log(this.urlValue);
     
-    const headers = {
-      "Authorization": "Bearer ed6de894b5dfa69def364f3c4b4755bfec07f580",
+    let headers = new HttpHeaders ({
+      "accept": "application/json",
+      "Authorization": "Bearer A8u8eEWVQrABrTWhcz1t66Lv5UBrhhBlAsK5St0EnXBtlJAqklmfHoBIefzG",
       "Content-Type": "application/json",
-    };
+    });
 
-    var body = {"long_url": this.urlValue, "domain": "bit.ly", "group_guid": "Ba1bc23dE4F"};
-    JSON.stringify(body);
-    this.http.post<any>('https://api-ssl.bitly.com/v4/shorten', { body }, { headers }).subscribe(data => {
+    let body = {"url": this.urlValue, "domain": "tiny.one"};
+
+    this.http.post<any>('https://api.tinyurl.com/create', body, {'headers': headers}).subscribe(data => {
       this.postId = data.id;
     });
+
+
   }
 
 }

@@ -14,8 +14,8 @@ import { UrlComponent } from './url/url.component';
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
