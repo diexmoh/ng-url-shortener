@@ -1,11 +1,13 @@
-<p>url works!</p>
-
 <form [formGroup]="urlForm" (ngSubmit)="onSubmit()">
-    <label for="first-name">URL: </label>
-    <input id="first-name" type="text" formControlName="url">
+    <label for="url">URL: </label>
+    <input id="url" type="text" formControlName="url">
     
     <p>Complete the form to enable button.</p>
     <button type="submit" [disabled]="!urlForm.valid">Submit</button>
 </form>
 
-<p>Url: {{ urlValue }}</p>
+<div *ngIf="showResults">
+    <p>Url: {{ urlValue }}</p>
+    <p>Tiny Url: {{ tinyUrlValue }}</p>
+</div>
+<!-- <div *ngIf="!showResults">Something went wrong. Check the logs for details.</div> -->

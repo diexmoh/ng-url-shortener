@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Component({
@@ -9,11 +9,12 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 })
 export class UrlComponent implements OnInit {
   urlForm = new FormGroup({
-    url: new FormControl(''),
+    url: new FormControl('', Validators.required)
   });
 
   urlValue: any;
-  postId: any;
+  tinyUrlValue: any;
+  showResults: boolean;
 
   constructor(private http: HttpClient) { }
 
@@ -23,7 +24,6 @@ export class UrlComponent implements OnInit {
   onSubmit() {
     
     this.urlValue = this.urlForm.value.url;
-    console.log(this.urlValue);
     
     let headers = new HttpHeaders ({
       "accept": "application/json",
@@ -33,11 +33,20 @@ export class UrlComponent implements OnInit {
 
     let body = {"url": this.urlValue, "domain": "tiny.one"};
 
-    this.http.post<any>('https://api.tinyurl.com/create', body, {'headers': headers}).subscribe(data => {
-      this.postId = data.id;
-    });
-
-
+    if (this.urlValue) { 
+      
+      this.http.post<any>('https://api.tinyurl.com/create', body, {'headers': headers}).subscribe(data => {
+        if (data.data.tiny_url && !data.data.errors){
+          this.tinyUrlValue = data.data.tiny_url;
+          this.showResults = true; 
+        } else {
+          this.showResults = false;
+        }
+      
+      });
+    }
+    
   }
-
+  
+  
 }
