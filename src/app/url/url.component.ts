@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-url',
@@ -15,8 +16,11 @@ export class UrlComponent implements OnInit {
   urlValue: any;
   tinyUrlValue: any;
   showResults: boolean;
+  token: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.token = environment.tinyApiToken;
+   }
 
   ngOnInit(): void {
   }
@@ -27,7 +31,7 @@ export class UrlComponent implements OnInit {
     
     let headers = new HttpHeaders ({
       "accept": "application/json",
-      "Authorization": "Bearer A8u8eEWVQrABrTWhcz1t66Lv5UBrhhBlAsK5St0EnXBtlJAqklmfHoBIefzG",
+      "Authorization": `Bearer ${this.token}`,
       "Content-Type": "application/json",
     });
 
