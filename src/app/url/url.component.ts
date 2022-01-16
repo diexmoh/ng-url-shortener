@@ -19,7 +19,7 @@ export class UrlComponent implements OnInit {
   token: string;
 
   constructor(private http: HttpClient) {
-    this.token = environment.tinyApiToken;
+    this.token = environment.bitlyApiToken;
    }
 
   ngOnInit(): void {
@@ -35,14 +35,14 @@ export class UrlComponent implements OnInit {
       "Content-Type": "application/json",
     });
 
-    let body = {"url": this.urlValue, "domain": "tiny.one"};
+    let body = {"domain": "bit.ly", "long_url": this.urlValue};
 
     if (this.urlValue) { 
       
-      this.http.post<any>('https://api.tinyurl.com/create', body, {'headers': headers}).subscribe(data => {
-        if (data.data.tiny_url && !data.data.errors){
-          this.tinyUrlValue = data.data.tiny_url;
-          this.showResults = true; 
+      this.http.post<any>('https://api-ssl.bitly.com/v4/shorten', body, {'headers': headers}).subscribe(data => {
+        if (data.link){
+          this.tinyUrlValue = data.link;
+          this.showResults = true;
         } else {
           this.showResults = false;
         }
